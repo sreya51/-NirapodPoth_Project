@@ -50,6 +50,7 @@ Security	Passwords hashed; NID stored privately
 Database Design
 ![ER Diagram] (https://github.com/Rijoana/NirapodPoth_Project/blob/5bb65f295c0c6f2baaf0facd47cbea26273fbd2d/NirapodPoth.drawio.png)
 
+
 Group Detail
 ● Sreya Ghosh – 231-115-051
 ● Shamima Akther Bhuiya – 231-115-066
