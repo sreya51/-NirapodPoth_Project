@@ -1,0 +1,109 @@
+
+Setting environment for using XAMPP for Windows.
+rijoa@DESKTOP-GENIGI7 c:\xampp
+# mysql -u root nirapodpoth_db
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [nirapodpoth_db]> SELECT * FROM users
+    -> SELECT * FROM users;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT * FROM users' at line 2
+MariaDB [nirapodpoth_db]> SELECT * FROM users;
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+| Id | fullname      | Email                | Password                                                     | NID        | created_at          |
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+|  1 | Rijoana Salam | rijoana123@gmail.com | $2y$10$CoOpTvz/zKubuj4tLCq1E.vSMxNJIY9canBqTwW4aZX3d73QyQ/iu | 9876543210 | 2025-07-15 00:56:39 |
+|  2 | Rijoana Salam | rijoana@gmail.com    | $2y$10$lAcyI5BrckqpPuQMszgRoe/Sb9htV.l/yXmDLVtWIeVqJofez.CLS | 1234567890 | 2025-07-15 01:05:37 |
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+2 rows in set (0.008 sec)
+
+MariaDB [nirapodpoth_db]> SELECT * FROM incidents;
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+| id | user_id | type       | location     | incident_time       | description | created_at          |
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+|  1 |       1 | Harassment | Bondor Bazar | 2025-07-15 17:50:00 | hh huhu     | 2025-07-16 02:48:41 |
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents MODIFY user_id INT NULL;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    23
+Current database: nirapodpoth_db
+
+Query OK, 0 rows affected (0.047 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> SELECT * FROM incidents ORDER BY created_at DESCLIMIT 5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DESCLIMIT 5' at line 1
+MariaDB [nirapodpoth_db]> SELECT * FROM incidents ORDER BY created_at DESC LIMIT 5;
++----+---------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+| id | user_id | type       | location     | incident_time       | description                                                                                                                                                                                                                                                                                                                                                                                                                         | created_at          |
++----+---------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+|  3 |    NULL | Theft      | Zindabazar   | 2025-07-15 15:46:00 | a handbag was stolen from a woman walking near the zindabazar bus stop. The thief snatched the bag quickly and fled on a motorcycle. Passersby tried to chase but lost sight of the culprit. The victim reported the incident to local authorities, who are now investigating.                                                                                                                                                      | 2025-07-16 21:47:37 |
+|  2 |    NULL | Stalking   | Pathantula   | 2025-07-16 14:40:00 | a shopkeeper at Patantula market reported the theft of a wallet containing approximately 8,000 BDT. The thief was seen slipping the wallet from the counter while the shopkeeper was attending to another customer. Nearby vendors noticed a suspicious person quickly leaving the area but could not identify them clearly. The local police were informed and are currently reviewing nearby CCTV footage to identify the suspect | 2025-07-16 21:46:24 |
+|  1 |       1 | Harassment | Bondor Bazar | 2025-07-15 17:50:00 | hh huhu                                                                                                                                                                                                                                                                                                                                                                                                                             | 2025-07-16 02:48:41 |
++----+---------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+3 rows in set (0.000 sec)
+                          SELECT * FROM incidents ORDER BY created_at DESC LIMIT 5;
+MariaDB [nirapodpoth_db]> SELECT * FROM incidents ORDER BY created_at DESC LIMIT 5 \G
+*************************** 1. row ***************************
+           id: 3
+      user_id: NULL
+         type: Theft
+     location: Zindabazar
+incident_time: 2025-07-15 15:46:00
+  description: a handbag was stolen from a woman walking near the zindabazar bus stop. The thief snatched the bag quickly and fled on a motorcycle. Passersby tried to chase but lost sight of the culprit. The victim reported the incident to local authorities, who are now investigating.
+   created_at: 2025-07-16 21:47:37
+*************************** 2. row ***************************
+           id: 2
+      user_id: NULL
+         type: Stalking
+     location: Pathantula
+incident_time: 2025-07-16 14:40:00
+  description: a shopkeeper at Patantula market reported the theft of a wallet containing approximately 8,000 BDT. The thief was seen slipping the wallet from the counter while the shopkeeper was attending to another customer. Nearby vendors noticed a suspicious person quickly leaving the area but could not identify them clearly. The local police were informed and are currently reviewing nearby CCTV footage to identify the suspect
+   created_at: 2025-07-16 21:46:24
+*************************** 3. row ***************************
+           id: 1
+      user_id: 1
+         type: Harassment
+     location: Bondor Bazar
+incident_time: 2025-07-15 17:50:00
+  description: hh huhu
+   created_at: 2025-07-16 02:48:41
+3 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> SELECT
+    -> incidents.id,
+    -> users.fullname AS reporter_name,
+    -> incidents.type,
+    -> incidents.location,
+    -> incidents.incident_time,
+    -> incidents.description,
+    -> incidents.created_at
+    -> FROM incidents LEFT JOIN users ON incidents.user_id = users.id ORDER BY incidents.created_at DESC;
++----+---------------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+| id | reporter_name | type       | location     | incident_time       | description                                                                                                                                                                                                                                                                                                                                                                                                                         | created_at          |
++----+---------------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+|  3 | NULL          | Theft      | Zindabazar   | 2025-07-15 15:46:00 | a handbag was stolen from a woman walking near the zindabazar bus stop. The thief snatched the bag quickly and fled on a motorcycle. Passersby tried to chase but lost sight of the culprit. The victim reported the incident to local authorities, who are now investigating.                                                                                                                                                      | 2025-07-16 21:47:37 |
+|  2 | NULL          | Stalking   | Pathantula   | 2025-07-16 14:40:00 | a shopkeeper at Patantula market reported the theft of a wallet containing approximately 8,000 BDT. The thief was seen slipping the wallet from the counter while the shopkeeper was attending to another customer. Nearby vendors noticed a suspicious person quickly leaving the area but could not identify them clearly. The local police were informed and are currently reviewing nearby CCTV footage to identify the suspect | 2025-07-16 21:46:24 |
+|  1 | Rijoana Salam | Harassment | Bondor Bazar | 2025-07-15 17:50:00 | hh huhu                                                                                                                                                                                                                                                                                                                                                                                                                             | 2025-07-16 02:48:41 |
++----+---------------+------------+--------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents
+    -> MODIFY incident_time DATETIME,
+    -> MODIFY created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+Query OK, 0 rows affected (0.021 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD safety_status VARCHAR(50) DEFAULT NULL;
+Query OK, 0 rows affected (0.027 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]>

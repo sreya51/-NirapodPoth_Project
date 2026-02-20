@@ -1,0 +1,85 @@
+
+Setting environment for using XAMPP for Windows.
+rijoa@DESKTOP-GENIGI7 c:\xampp
+# my sql -u root -p
+'my' is not recognized as an internal or external command,
+operable program or batch file.
+
+rijoa@DESKTOP-GENIGI7 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 77
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE nirapodpoth_db;
+Database changed
+MariaDB [nirapodpoth_db]> SHOW TABLES;
++--------------------------+
+| Tables_in_nirapodpoth_db |
++--------------------------+
+| users                    |
++--------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> SELECT * FROM users;
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+| Id | fullname      | Email                | Password                                                     | NID        | created_at          |
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+|  1 | Rijoana Salam | rijoana123@gmail.com | $2y$10$CoOpTvz/zKubuj4tLCq1E.vSMxNJIY9canBqTwW4aZX3d73QyQ/iu | 9876543210 | 2025-07-15 00:56:39 |
+|  2 | Rijoana Salam | rijoana@gmail.com    | $2y$10$lAcyI5BrckqpPuQMszgRoe/Sb9htV.l/yXmDLVtWIeVqJofez.CLS | 1234567890 | 2025-07-15 01:05:37 |
++----+---------------+----------------------+--------------------------------------------------------------+------------+---------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> USE nirapodpoth_db;
+Database changed
+MariaDB [nirapodpoth_db]> CREATE TABLE incidents(
+    -> id INT AUTO_INCREMENT PRIMARY KEY,
+    -> user_id INT NOT NULL,
+    -> type VARCHAR(50),
+    -> location VARCHAR(100),
+    -> incident_time DATETIME,
+    -> description TEXT,
+    -> created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -> FOREIGN KEY(user_id) REFERENCES users(id)
+    -> );
+Query OK, 0 rows affected (0.049 sec)
+
+MariaDB [nirapodpoth_db]> SHOW TABLES;
++--------------------------+
+| Tables_in_nirapodpoth_db |
++--------------------------+
+| incidents                |
+| users                    |
++--------------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> DESCRIBE incidents;
++---------------+--------------+------+-----+---------------------+----------------+
+| Field         | Type         | Null | Key | Default             | Extra          |
++---------------+--------------+------+-----+---------------------+----------------+
+| id            | int(11)      | NO   | PRI | NULL                | auto_increment |
+| user_id       | int(11)      | NO   | MUL | NULL                |                |
+| type          | varchar(50)  | YES  |     | NULL                |                |
+| location      | varchar(100) | YES  |     | NULL                |                |
+| incident_time | datetime     | YES  |     | NULL                |                |
+| description   | text         | YES  |     | NULL                |                |
+| created_at    | timestamp    | NO   |     | current_timestamp() |                |
++---------------+--------------+------+-----+---------------------+----------------+
+7 rows in set (0.037 sec)
+
+MariaDB [nirapodpoth_db]> USE nirapodpoth_db;
+Database changed
+MariaDB [nirapodpoth_db]> SELECT * FROM incidents;
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+| id | user_id | type       | location     | incident_time       | description | created_at          |
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+|  1 |       1 | Harassment | Bondor Bazar | 2025-07-15 17:50:00 | hh huhu     | 2025-07-16 02:48:41 |
++----+---------+------------+--------------+---------------------+-------------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [nirapodpoth_db]>

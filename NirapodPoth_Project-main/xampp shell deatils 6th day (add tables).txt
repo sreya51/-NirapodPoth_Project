@@ -1,0 +1,57 @@
+
+Setting environment for using XAMPP for Windows.
+rijoa@DESKTOP-GENIGI7 c:\xampp\new
+# mysql -u root nirapodpoth_db
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 30
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [nirapodpoth_db]> SELECT location_id , name FROM locations;
++-------------+--------------+
+| location_id | name         |
++-------------+--------------+
+|           1 | Bondor Bazar |
+|           2 | Sylhet Sadar |
+|           3 | Ambarkhana   |
+|           4 | Mirabazar    |
++-------------+--------------+
+4 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> INSERT INTO incident_types (type_name)
+    -> VALUES ('Harassment'),
+    -> ('Stalking'),
+    -> ('Theft'),
+    -> ('Road Accident'),
+    -> ('Eve Teasing'),
+    -> ('Suspicious Activity'),
+    -> ('Kidnapping'),
+    -> ('Other');
+Query OK, 8 rows affected (0.016 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD COLUMN type_id INT;
+Query OK, 0 rows affected (0.049 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents
+    -> ADD CONSTRAINT fk_type_id
+    -> FOREIGN KEY (type_id)
+    -> REFERENCES incident_types(type_id)
+    -> ON DELETE SET NULL;
+Query OK, 8 rows affected (0.045 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD COLUMN flagged TINYINT(1) DEFAULT 0;
+Query OK, 0 rows affected (0.015 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD COLUMN flagged TINYINT(1) NOT NULL DEFAULT 0;
+ERROR 1060 (42S21): Duplicate column name 'flagged'
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents MODIFY COLUMN flagged TINYINT(1) NOT NULL DEFAULT 0;
+Query OK, 0 rows affected (0.050 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+

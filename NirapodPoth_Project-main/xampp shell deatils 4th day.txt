@@ -1,0 +1,48 @@
+
+Setting environment for using XAMPP for Windows.
+rijoa@DESKTOP-GENIGI7 c:\xampp
+# mysql -u root nirapodpoth_db
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 140
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [nirapodpoth_db]> ALTER TABLE users ADD is_admin BOOLEAN DEFAULT 0;
+Query OK, 0 rows affected (0.019 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD status VARCHAR(50) NOT NULL DEFAULT 'Pending';
+Query OK, 0 rows affected (0.016 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD status VARCHAR(20) DEFAULT 'Unverified';
+ERROR 1060 (42S21): Duplicate column name 'status'
+MariaDB [nirapodpoth_db]> DESCRIBE incidents;
++----------------+--------------+------+-----+---------------------+----------------+
+| Field          | Type         | Null | Key | Default             | Extra          |
++----------------+--------------+------+-----+---------------------+----------------+
+| id             | int(11)      | NO   | PRI | NULL                | auto_increment |
+| user_id        | int(11)      | YES  | MUL | NULL                |                |
+| type           | varchar(50)  | YES  |     | NULL                |                |
+| location       | varchar(100) | YES  |     | NULL                |                |
+| incident_time  | datetime     | YES  |     | NULL                |                |
+| description    | text         | YES  |     | NULL                |                |
+| created_at     | timestamp    | NO   |     | current_timestamp() |                |
+| safety_status  | varchar(50)  | YES  |     | NULL                |                |
+| contact_number | varchar(15)  | YES  |     | NULL                |                |
+| status         | varchar(50)  | NO   |     | Pending             |                |
++----------------+--------------+------+-----+---------------------+----------------+
+10 rows in set (0.028 sec)
+
+MariaDB [nirapodpoth_db]> UPDATE incidents SET status = 'Unverified' WHERE status IS NULL OR status ='';
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents ADD is_fake BOOLEAN DEFAULT 0;
+Query OK, 0 rows affected (0.033 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]>

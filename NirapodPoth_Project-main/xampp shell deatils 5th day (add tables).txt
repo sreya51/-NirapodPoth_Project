@@ -1,0 +1,129 @@
+
+Setting environment for using XAMPP for Windows.
+rijoa@DESKTOP-GENIGI7 c:\xampp\new
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 117
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> USE nirapodpoth_db;
+Database changed
+MariaDB [nirapodpoth_db]> ALTER TABLE incidents
+    -> ADD location_id INT(11) DEFAULT NULL,
+    -> ADD CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES locations(location_id);
+Query OK, 6 rows affected (0.060 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> SELECT incidents.id,
+    -> users.fullname AS reporter_name,
+    -> locations.name AS location_name,
+    -> incidents.type,
+    -> incidents.incident_time,
+    -> incidents.description,
+    -> incidents.created_at
+    -> FROM incidents
+    -> LEFT JOIN users ON incidents.user_id = users.id
+    -> LEFT JOIN locations ON incidents.location_id = locations.location_id
+    -> ORDER BY incidents.created_at DESC;
++----+----------------+---------------+------------+---------------------+------------------------+---------------------+
+| id | reporter_name  | location_name | type       | incident_time       | description            | created_at          |
++----+----------------+---------------+------------+---------------------+------------------------+---------------------+
+| 10 | NULL           | NULL          | Accident   | 2025-08-04 14:41:00 | hhhhhhhhhhhhhhhhhhhhhh | 2025-08-04 02:41:53 |
+|  9 | Rijoana Salam  | NULL          | Harassment | 2025-08-04 02:41:00 | ert                    | 2025-08-04 02:41:24 |
+|  8 | NULL           | NULL          | Theft      | 2025-08-04 14:27:00 | rtvdfggh               | 2025-08-04 02:27:17 |
+|  7 | NULL           | NULL          | Harassment | 2025-08-04 01:00:00 | rrr                    | 2025-08-04 00:00:26 |
+|  6 | Rijoana Salam  | NULL          | Harassment | 2025-08-03 22:59:00 | wee                    | 2025-08-03 23:59:51 |
+|  2 | Sumaiya Rahman | NULL          | Harassment | 2025-08-03 21:03:00 | how                    | 2025-08-03 21:03:37 |
++----+----------------+---------------+------------+---------------------+------------------------+---------------------+
+6 rows in set (0.003 sec)
+
+MariaDB [nirapodpoth_db]> INSERT INTO locations(name, zone_type) VALUES ('Bondor Bazar', 'Urban'),
+    -> ('Sylhet Sadar', 'District'),
+    -> ('Ambarkhana', 'Urban'),
+    -> ('Mirabazar', 'Commercial');
+Query OK, 4 rows affected (0.002 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [nirapodpoth_db]> SELECT * FROM locations;
++-------------+--------------+------------+
+| location_id | name         | zone_type  |
++-------------+--------------+------------+
+|           1 | Bondor Bazar | Urban      |
+|           2 | Sylhet Sadar | District   |
+|           3 | Ambarkhana   | Urban      |
+|           4 | Mirabazar    | Commercial |
++-------------+--------------+------------+
+4 rows in set (0.000 sec)
+
+MariaDB [nirapodpoth_db]> SELECT
+    -> i.type,
+    -> i.incident_time,
+    -> i.description,
+    -> l.name AS location_name
+    -> FROM incidents i
+    -> LEFT JOIN locations l ON i.location_id = l.location_id;
++------------+---------------------+------------------------+---------------+
+| type       | incident_time       | description            | location_name |
++------------+---------------------+------------------------+---------------+
+| Harassment | 2025-08-03 21:03:00 | how                    | NULL          |
+| Harassment | 2025-08-03 22:59:00 | wee                    | NULL          |
+| Harassment | 2025-08-04 01:00:00 | rrr                    | NULL          |
+| Theft      | 2025-08-04 14:27:00 | rtvdfggh               | NULL          |
+| Harassment | 2025-08-04 02:41:00 | ert                    | NULL          |
+| Accident   | 2025-08-04 14:41:00 | hhhhhhhhhhhhhhhhhhhhhh | NULL          |
+| Harassment | 2025-08-07 22:38:00 | dddddddd               | Ambarkhana    |
++------------+---------------------+------------------------+---------------+
+7 rows in set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> SELECT id, type ,location
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> ;
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+MariaDB [nirapodpoth_db]> SELECT id, type ,location_id FROM incidents WHERE location_id IS NULL;
+Empty set (0.001 sec)
+
+MariaDB [nirapodpoth_db]> SELECT DISTINCT location_id FROM incidents;
++-------------+
+| location_id |
++-------------+
+|           1 |
+|           2 |
+|           3 |
+|           4 |
++-------------+
+4 rows in set (0.000 sec)
+
+MariaDB [nirapodpoth_db]> SELECT location_id FROM incidents;
++-------------+
+| location_id |
++-------------+
+|           1 |
+|           2 |
+|           3 |
+|           3 |
+|           4 |
++-------------+
+5 rows in set (0.000 sec)
+
+MariaDB [nirapodpoth_db]> SELECT i.id, i.location_id FROM incidents i
+    -> LEFT JOIN locations l ON i.location_id = l.location_id
+    -> WHERE l.location_id IS NULL;
+Empty set (0.001 sec)
+
+MariaDB [nirapodpoth_db]>
