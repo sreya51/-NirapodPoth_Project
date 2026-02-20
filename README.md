@@ -71,29 +71,4 @@ Project Contribution:
 
 Video Link:
 https://youtu.be/C7RSGAldMMo?si=e2mN3ARs_RXURUUk
-
-About
-No description, website, or topics provided.
-Resources
- Readme
- Activity
-Stars
- 0 stars
-Watchers
- 0 watching
-Forks
- 0 forks
-Report repository
-Releases
-No releases published
-Packages
-No packages published
-Languages
-PHP
-87.5%
  
-Hack
-12.5%
-
-Privacy
-Secu
